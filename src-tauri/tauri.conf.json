@@ -20,8 +20,9 @@
     "windows": [
       {
         "title": "se-374-01_school_management_monitor",
-        "width": 800,
-        "height": 600
+        "width": 1000,
+        "height": 711,
+        "resizable": false
       }
     ],
     "security": {
