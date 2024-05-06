@@ -74,18 +74,64 @@ const StudentDashboard = () => {
           </thead>
           <tbody>
             <tr>
-              <td>John Doe</td>
-              <td>123456</td>
-              <td>Active</td>
-              <td>john.doe@example.com</td>
-              <td>Mathematics</td>
+              <td>Fatih Bahadır</td>
+              <td>200706038</td>
+              <td className="status">
+                <span className="circle card-green">
+                </span>
+                Entered at 9:00</td>
+              <td>hunkarhyme@gmail.com<br/>05527083461</td>
+              <td>MA-3</td>
             </tr>
             <tr>
               <td>Jane Smith</td>
-              <td>789012</td>
-              <td>Inactive</td>
-              <td>jane.smith@example.com</td>
-              <td>History</td>
+              <td>200706060</td>
+              <td className="status">
+                <span className="circle card-red">
+                </span>
+                Exited at 14:00</td>
+                <td>jane.smith@example.com<br/>05527083462</td>
+              <td>MA-1</td>
+            </tr>
+            <tr>
+              <td>Jane Smith</td>
+              <td>200706061</td>
+              <td className="status">
+                <span className="circle card-yellow">
+                </span>
+               Unknown</td>
+              <td>jane.smith@example.com<br/>05527083462</td>
+              <td>MA-5</td>
+            </tr>
+            <tr>
+              <td>Jane Smith</td>
+              <td>200706061</td>
+              <td className="status">
+                <span className="circle card-yellow">
+                </span>
+               Unknown</td>
+              <td>jane.smith@example.com<br/>05527083462</td>
+              <td>MA-5</td>
+            </tr>
+            <tr>
+              <td>Jane Smith</td>
+              <td>200706061</td>
+              <td className="status">
+                <span className="circle card-yellow">
+                </span>
+               Unknown</td>
+              <td>jane.smith@example.com<br/>05527083462</td>
+              <td>MA-5</td>
+            </tr>
+            <tr>
+              <td>Jane Smith</td>
+              <td>200706061</td>
+              <td className="status">
+                <span className="circle card-yellow">
+                </span>
+               Unknown</td>
+              <td>jane.smith@example.com<br/>05527083462</td>
+              <td>MA-5</td>
             </tr>
           </tbody>
         </table>
