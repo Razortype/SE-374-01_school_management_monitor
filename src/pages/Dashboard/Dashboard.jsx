@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Navbar from '../../components/CommonComponents/Navbar/Navbar'
 import Sidebar from '../../components/CommonComponents/Sidebar/Sidebar'
 import StudentDashboard from '../../components/StudentDashboard/StudentDashboard'
@@ -9,11 +10,13 @@ const Dashboard = () => {
      .then(res=>console.log(res.data))
      .catch(err=>console.log(err))
   }
+
+  const [isChanged, setIsChanged] = useState(false)
   return (
     <div className=''>
       <Sidebar/>
-      <Navbar/>
-      <StudentDashboard/>
+      <Navbar setIsChanged={setIsChanged}/>
+      <StudentDashboard isChanged={isChanged} setIsChanged={setIsChanged}/>
     </div>
   )
 }

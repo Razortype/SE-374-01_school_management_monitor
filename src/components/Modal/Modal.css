@@ -1,0 +1,22 @@
+.modal {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+}
+
+.modal-container {
+    background-color: white;
+    border-radius: 10px;
+    margin: 10% auto;
+    padding: 30px 40px;
+    width: 800px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

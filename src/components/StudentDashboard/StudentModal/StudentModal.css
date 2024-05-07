@@ -1,0 +1,111 @@
+.img-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.model-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.user-icon {
+    width: 6em;
+    height: 6em;
+    position: relative;
+}
+
+.user-circle {
+    color: #000AFF;
+    width: 1.7em;
+    height: 1.7em;
+    position: absolute;
+    bottom: 10px;
+    background-color: white;
+    border-radius: 100%;
+    right: 320px;
+    cursor: pointer;
+}
+
+.input-triple {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.triple-area {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.input-label {
+    font-size: 12px;
+    color: #8A8A8A;
+}
+
+.model-input {
+    padding: 10px;
+    border: 0.5px solid #A7A7A7;
+    border-radius: 4px;
+    width: 180px;
+}
+
+.model-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.model-input:focus{
+    outline: none;
+    border: 1px solid #0029FF;
+}
+
+.input-double {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.double-input {
+    padding: 10px;
+    border: 0.5px solid #A7A7A7;
+    border-radius: 4px;
+    width: 300px;
+}
+
+.double-input:focus{
+    outline: none;
+    border: 1px solid #0029FF;
+}
+
+.btn-area {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.btn-area > button {
+     background-color: #0029FF;
+     color: white;
+     border: none;
+     outline: none;
+     border-radius: 5px;
+     padding: 10px 20px;
+     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+     transition: all 200ms ease-in-out;
+     cursor: pointer;
+     margin-top: 20px;
+}
+
+.btn-area > button:hover {
+    scale: 1.05;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
+
+}

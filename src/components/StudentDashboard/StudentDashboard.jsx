@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./StudentDashboard.css";
 import {
   PiCheck,
@@ -7,8 +7,46 @@ import {
   PiUsers,
   PiX,
 } from "react-icons/pi";
+import axios from "../../services/api";
+import useAuth from "../../hooks/useAuth";
+import Pagination from "../Pagination/Paginaton";
 
-const StudentDashboard = () => {
+const StudentDashboard = ({ isChanged }) => {
+  const [students, setStudents] = useState([]);
+  const { auth } = useAuth();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [studentsPerPage] = useState(5); // Her sayfada kaç öğe gösterileceği
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const indexOfLastStudent = currentPage * studentsPerPage;
+  const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
+  const currentStudents = students.slice(indexOfFirstStudent, indexOfLastStudent);
+
+  const getAllStudents = () => {
+    axios
+      .get("api/v1/admin/student", {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
+      })
+      .then((response) => {
+        setStudents(response.data.data);
+        console.log(response.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    isChanged && getAllStudents();
+    console.log("is changed değişti abey",isChanged)
+  }, [isChanged]);
+
+  useEffect(() => {
+    getAllStudents();
+  }, []);
+
   return (
     <div className="container">
       <div className="cards">
@@ -60,81 +98,60 @@ const StudentDashboard = () => {
             />{" "}
           </div>
         </div>
-        </div>
+      </div>
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Student ID</th>
-              <th>Status</th>
-              <th>Contact</th>
-              <th>Class</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Fatih Bahadır</td>
-              <td>200706038</td>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Student ID</th>
+            <th>Status</th>
+            <th>Contact</th>
+            <th>Class</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentStudents.map((student) => (
+            <tr key={student.id}>
+              <td>
+                {student.firstname} {student.lastname}
+              </td>
+              <td>{student.school_number}</td>
               <td className="status">
-                <span className="circle card-green">
-                </span>
-                Entered at 9:00</td>
-              <td>hunkarhyme@gmail.com<br/>05527083461</td>
-              <td>MA-3</td>
+                {Math.floor(Math.random() * 2) === 0 ? (
+                  <>
+                    <span className="circle card-green"></span>
+                    Entered at 9:00
+                  </>
+                ) : Math.floor(Math.random() * 2) < 0.6 ? (
+                  <>
+                    <span className="circle card-yellow"></span>
+                    Unknown
+                  </>
+                ) : (
+                  <>
+                    <span className="circle card-red"></span>
+                    Exited at 14:00
+                  </>
+                )}
+              </td>
+              <td>
+                {student.email}
+              <br />
+                {student.phone_number}
+            </td>
+            <td>
+            {Math.floor(Math.random() * 2) === 0 ? "MA-3"
+            :"MA-5"
+            }
+            </td>
             </tr>
-            <tr>
-              <td>Jane Smith</td>
-              <td>200706060</td>
-              <td className="status">
-                <span className="circle card-red">
-                </span>
-                Exited at 14:00</td>
-                <td>jane.smith@example.com<br/>05527083462</td>
-              <td>MA-1</td>
-            </tr>
-            <tr>
-              <td>Jane Smith</td>
-              <td>200706061</td>
-              <td className="status">
-                <span className="circle card-yellow">
-                </span>
-               Unknown</td>
-              <td>jane.smith@example.com<br/>05527083462</td>
-              <td>MA-5</td>
-            </tr>
-            <tr>
-              <td>Jane Smith</td>
-              <td>200706061</td>
-              <td className="status">
-                <span className="circle card-yellow">
-                </span>
-               Unknown</td>
-              <td>jane.smith@example.com<br/>05527083462</td>
-              <td>MA-5</td>
-            </tr>
-            <tr>
-              <td>Jane Smith</td>
-              <td>200706061</td>
-              <td className="status">
-                <span className="circle card-yellow">
-                </span>
-               Unknown</td>
-              <td>jane.smith@example.com<br/>05527083462</td>
-              <td>MA-5</td>
-            </tr>
-            <tr>
-              <td>Jane Smith</td>
-              <td>200706061</td>
-              <td className="status">
-                <span className="circle card-yellow">
-                </span>
-               Unknown</td>
-              <td>jane.smith@example.com<br/>05527083462</td>
-              <td>MA-5</td>
-            </tr>
-          </tbody>
-        </table>
+          ))}
+         
+        </tbody>
+      </table>
+
+
     </div>
   );
 };
