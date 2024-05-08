@@ -15,8 +15,9 @@ const StudentDashboard = ({ isChanged }) => {
   const [students, setStudents] = useState([]);
   const { auth } = useAuth();
   const [currentPage, setCurrentPage] = useState(1);
-  const [studentsPerPage] = useState(5); // Her sayfada kaç öğe gösterileceği
+  const [studentsPerPage] = useState(5);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  
 
   const indexOfLastStudent = currentPage * studentsPerPage;
   const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
@@ -53,7 +54,7 @@ const StudentDashboard = ({ isChanged }) => {
         <div className="card card-blue">
           <h6 className="card-heading">All students</h6>
           <div className="card-bottom">
-            <p>2,000</p>
+            <p>{students.length}</p>
             <PiUsers
               style={{
                 width: "1.7em",
@@ -65,7 +66,7 @@ const StudentDashboard = ({ isChanged }) => {
         <div className="card card-green">
           <h6 className="card-heading">Entered students</h6>
           <div className="card-bottom">
-            <p>1,500</p>
+            <p>0</p>
             <PiCheck
               style={{
                 width: "1.7em",
@@ -77,7 +78,7 @@ const StudentDashboard = ({ isChanged }) => {
         <div className="card card-red">
           <h6 className="card-heading">Exited students</h6>
           <div className="card-bottom">
-            <p>450</p>
+            <p>{students.length}</p>
             <PiX
               style={{
                 width: "1.7em",
@@ -89,7 +90,7 @@ const StudentDashboard = ({ isChanged }) => {
         <div className="card card-yellow">
           <h6 className="card-heading">Unknown Status</h6>
           <div className="card-bottom">
-            <p>50</p>
+            <p>0</p>
             <PiQuestionMark
               style={{
                 width: "1.7em",
@@ -118,22 +119,13 @@ const StudentDashboard = ({ isChanged }) => {
               </td>
               <td>{student.school_number}</td>
               <td className="status">
-                {Math.floor(Math.random() * 2) === 0 ? (
+                {
+                  students.inScholl ? '' : 
                   <>
-                    <span className="circle card-green"></span>
-                    Entered at 9:00
-                  </>
-                ) : Math.floor(Math.random() * 2) < 0.6 ? (
-                  <>
-                    <span className="circle card-yellow"></span>
-                    Unknown
-                  </>
-                ) : (
-                  <>
-                    <span className="circle card-red"></span>
-                    Exited at 14:00
-                  </>
-                )}
+                  <span className="circle card-red"></span>
+                  Exited at 14:00
+                </>
+                }
               </td>
               <td>
                 {student.email}

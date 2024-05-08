@@ -69,19 +69,19 @@
 
 /* Kenarları yuvarlatmak için pseudo-elementler kullanılır */
 .table thead th:first-child {
-    border-top-left-radius: 5px;
+    border-top-left-radius: 10px;
 }
 
 .table thead th:last-child {
-    border-top-right-radius: 5px;
+    border-top-right-radius: 10px;
 }
 
 .table tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 5px;
+    border-bottom-left-radius: 10px;
 }
 
 .table tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 10px;
 }
 
 /* Diğer stiller */
@@ -92,7 +92,7 @@
 
 .thead > tr {
     background: #0025FF !important;
-    border-radius: 10px;
+    border-radius: 20px;
     font-weight: bold;
 }
 
