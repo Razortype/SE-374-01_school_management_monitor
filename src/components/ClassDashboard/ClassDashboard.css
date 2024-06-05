@@ -1,0 +1,14 @@
+.edit:hover {
+    color: darkblue !important;
+}
+
+.table-button{
+    border:none;
+    background-color: transparent;
+    color: blue;
+    cursor: pointer;
+}
+
+.table-button:hover {
+    color: darkblue !important;
+}

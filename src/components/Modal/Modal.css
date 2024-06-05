@@ -4,15 +4,15 @@
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background: rgba(0, 0, 0, 0.5);
-    overflow: auto;
+    overflow: hidden;
 }
 
 .modal-container {
     background-color: white;
     border-radius: 10px;
-    margin: 10% auto;
+    margin: 5% auto;
     padding: 30px 40px;
     width: 800px;
     position: relative;

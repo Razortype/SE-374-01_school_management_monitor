@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./StudentDashboard.css";
 import {
+  PiCaretLeft,
+  PiCaretRight,
   PiCheck,
   PiQuestion,
   PiQuestionMark,
@@ -13,19 +15,14 @@ import Pagination from "../Pagination/Paginaton";
 
 const StudentDashboard = ({ isChanged }) => {
   const [students, setStudents] = useState([]);
+  const [studentCount, setStudentCount] = useState(0);
   const { auth } = useAuth();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [studentsPerPage] = useState(5);
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const indexOfLastStudent = currentPage * studentsPerPage;
-  const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
-  const currentStudents = students.slice(indexOfFirstStudent, indexOfLastStudent);
 
   const getAllStudents = () => {
     axios
-      .get("api/v1/admin/student", {
+      .get(`api/v1/admin/student?page=${currentPage}&size=7`, {
         headers: {
           Authorization: `Bearer ${auth.accessToken}`,
         },
@@ -39,22 +36,51 @@ const StudentDashboard = ({ isChanged }) => {
       });
   };
 
+  const getStCount = () => {
+    axios
+      .get(`api/v1/admin/student?page=${currentPage}&size=1000`, {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
+      })
+      .then((response) => {
+        setStudentCount(response.data.data.length);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     isChanged && getAllStudents();
-    console.log("is changed değişti abey",isChanged)
   }, [isChanged]);
+
+  useEffect(() => {
+    isChanged && getStCount();
+  }, [isChanged]);
+
 
   useEffect(() => {
     getAllStudents();
   }, []);
 
+  useEffect(() => {
+    getStCount();
+  }, []);
+
+  useEffect(() => {
+    getAllStudents();
+  }, [currentPage]);
+
   return (
-    <div className="container">
+    <div style={{
+      height: 'calc(100vh - 80px)'
+  }} className="container">
       <div className="cards">
         <div className="card card-blue">
           <h6 className="card-heading">All students</h6>
           <div className="card-bottom">
-            <p>{students.length}</p>
+            <p>{studentCount}</p>
             <PiUsers
               style={{
                 width: "1.7em",
@@ -78,7 +104,7 @@ const StudentDashboard = ({ isChanged }) => {
         <div className="card card-red">
           <h6 className="card-heading">Exited students</h6>
           <div className="card-bottom">
-            <p>{students.length}</p>
+            <p>{studentCount}</p>
             <PiX
               style={{
                 width: "1.7em",
@@ -108,11 +134,10 @@ const StudentDashboard = ({ isChanged }) => {
             <th>Student ID</th>
             <th>Status</th>
             <th>Contact</th>
-            <th>Class</th>
           </tr>
         </thead>
         <tbody>
-          {currentStudents.map((student) => (
+          {students.map((student) => (
             <tr key={student.id}>
               <td>
                 {student.firstname} {student.lastname}
@@ -132,18 +157,37 @@ const StudentDashboard = ({ isChanged }) => {
               <br />
                 {student.phone_number}
             </td>
-            <td>
-            {Math.floor(Math.random() * 2) === 0 ? "MA-3"
-            :"MA-5"
-            }
-            </td>
             </tr>
           ))}
          
         </tbody>
       </table>
 
-
+      <div style={{
+        marginTop: 'auto',
+        paddingTop: '20px'
+      }} className="course-buttons">
+        <div
+          onClick={()=>setCurrentPage(currentPage-1)}
+          style={{
+            pointerEvents: currentPage === 0 && "none",
+            color: currentPage === 0 && "#D7D7D9",
+          }}
+        >
+          <PiCaretLeft />
+          Previous
+        </div>
+        <div className="page">{currentPage + 1}</div>
+        <div
+          onClick={()=>setCurrentPage(currentPage+1)}
+          style={{
+            pointerEvents: students.length < 7 && "none",
+            color: students.length < 7  && "#D7D7D9",
+          }}
+        >
+          Next <PiCaretRight />
+        </div>
+      </div>
     </div>
   );
 };

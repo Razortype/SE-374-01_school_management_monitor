@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import {
+  PiCaretDown,
   PiPlusCircle,
   PiPlusCircleFill,
   PiUserCircleFill,
 } from "react-icons/pi";
-import "./StudentModal.css";
+import "./TeacherModal.css";
 import axios from "../../../services/api";
 import useAuth from "../../../hooks/useAuth";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
-const StudentModal = ({ setIsChanged, closeModal }) => {
+const TeacherModal = ({ setIsChanged, closeModal }) => {
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
-    studentId: "",
     password: "",
     birthday: "",
+    profession: "",
     email: "",
     phoneNumber: "",
   });
@@ -32,33 +33,31 @@ const StudentModal = ({ setIsChanged, closeModal }) => {
     });
   };
 
-  const saveStudent = (e) => {
+  const saveTeacher = (e) => {
     e.preventDefault();
     setLoading(true);
-    if (formData.studentId.length !== 9){
-      toast.error("Student id should be 9 chars.")
-      return
-    }
-    else if (formData.birthday.length !== 4) {
-      toast.error("Birthday should be 4 digits.")
-      return
-    }
-    else if (formData.phoneNumber.length !== 11) {
-      toast.error("Phone number should be 11 digits.")
-      return
+    if (formData.phoneNumber.length !== 11) {
+      toast.error("Phone number should be 11 digits.");
+      return;
+    } else if (formData.password.length < 4) {
+      toast.error("Phone should be at least 4 letters.");
+      return;
+    } else if (formData.profession === "") {
+      toast.error("Please select a profession.");
+      return;
     }
 
     axios
       .post(
-        "/api/v1/admin/create/student",
+        "/api/v1/admin/create/teacher",
         {
           email: formData.email,
-          password: formData.password,
+          password: formData.password,    
           firstname: formData.name,
           lastname: formData.surname,
-          school_number: formData.studentId,
+          profession: formData.profession,
           phone_number: formData.phoneNumber,
-          birth_year: formData.birthday,
+          birth_year: parseInt(formData.birthday),
         },
         {
           headers: {
@@ -73,14 +72,14 @@ const StudentModal = ({ setIsChanged, closeModal }) => {
         setFormData({
           name: "",
           surname: "",
-          studentId: "",
           password: "",
           birthday: "",
+          profession: "",
           email: "",
           phoneNumber: "",
         });
         setIsChanged(true);
-        toast.success("Student saved succesfully.");
+        toast.success("Teacher saved succesfully.");
         closeModal();
       })
       .catch((err) => {
@@ -89,9 +88,9 @@ const StudentModal = ({ setIsChanged, closeModal }) => {
         setFormData({
           name: "",
           surname: "",
-          studentId: "",
           password: "",
           birthday: "",
+          profession: "",
           email: "",
           phoneNumber: "",
         });
@@ -100,70 +99,67 @@ const StudentModal = ({ setIsChanged, closeModal }) => {
       });
   };
 
+
   useEffect(() => {
     setIsChanged(false);
   }, []);
-
+  
   return (
     <div className="model-container">
       <div className="img-container">
         <PiUserCircleFill className="user-icon" />
         <PiPlusCircleFill className="user-circle" />
       </div>
-      <form onSubmit={saveStudent} className="model-form">
-        <div className="input-triple">
+      <form onSubmit={saveTeacher} className="model-form">
+        <div className="input-double">
           <div className="triple-area">
             <label className="input-label">Name</label>
             <input
-              className="model-input"
+              className="double-input"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              required
               type="text"
+              required
             />
           </div>
           <div className="triple-area">
             <label className="input-label">Surname</label>
             <input
-              className="model-input"
+              className="double-input"
               name="surname"
               value={formData.surname}
               onChange={handleChange}
-              required
               type="text"
-            />
-          </div>
-          <div className="triple-area">
-            <label className="input-label">Student Id</label>
-            <input
-              className="model-input"
-              name="studentId"
-              value={formData.studentId}
-              onChange={handleChange}
-              type="number"
-              maxLength="10"
               required
             />
           </div>
         </div>
-        <div className="input-triple">
+        <div className="input-double">
           <div className="triple-area">
-            <input
-              className="model-input"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              type="password"
-              required
-            />
+            <label className="input-label">Profession</label>
+            <div className="select-container">
+              <select
+                className="double-input"
+                name="profession"
+                value={formData.profession}
+                onChange={handleChange}
+                type="text"
+                required
+              >
+                <option value="">Select a profession</option>
+                <option value="NOT_DEFINED">NOT DEFINED</option>
+                <option value="MATHEMATICIAN">MATHEMATICIAN</option>
+                <option value="COMPUTER_SCIENTIST">COMPUTER SCIENTIST</option>
+              </select>
+              <PiCaretDown className="select-icon" />
+            </div>
           </div>
           <div className="triple-area">
+            <label className="input-label">Birth Year</label>
             <input
-              className="model-input"
+              className="double-input"
               name="birthday"
-              placeholder="Birthday"
               value={formData.birthday}
               onChange={handleChange}
               min={1950}
@@ -174,17 +170,6 @@ const StudentModal = ({ setIsChanged, closeModal }) => {
         </div>
         <div className="input-double">
           <div className="triple-area">
-            <label className="input-label">Email</label>
-            <input
-              className="double-input"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              type="email"
-              required
-            />
-          </div>
-          <div className="triple-area">
             <label className="input-label">Phone Number</label>
             <input
               className="double-input"
@@ -194,11 +179,36 @@ const StudentModal = ({ setIsChanged, closeModal }) => {
               required
             />
           </div>
+          <div className="triple-area">
+            <label className="input-label">Password</label>
+            <input
+              className="double-input"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="input-double">
+          <div className="triple-area">
+            <label className="input-label">Email</label>
+            <input
+              className="double-input"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
         <div className="btn-area">
           <button disabled={loading} type="submit">
-            {loading ? "Loading..." : "Add Member"}
+            {loading ? "Loading..." : "Add Teacher"}
           </button>
         </div>
       </form>
@@ -206,4 +216,4 @@ const StudentModal = ({ setIsChanged, closeModal }) => {
   );
 };
 
-export default StudentModal;
+export default TeacherModal;

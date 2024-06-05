@@ -1,0 +1,29 @@
+.img-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.model-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.double-input {
+    appearance: none;
+}
+
+.select-container {
+    position: relative;
+}
+
+.select-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}

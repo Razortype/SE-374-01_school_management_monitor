@@ -1,0 +1,140 @@
+.container {
+    margin-left: 200px;
+    width: calc(100vw-200px);
+    padding: 35px 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cards{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: white;
+    padding: 10px 10px;
+    border-radius: 6px;
+}
+
+.card-blue {
+    background: linear-gradient(to top right, #0025FF 15%, #5F86FC 100%);
+}
+
+.card-yellow {
+    background: linear-gradient(to top right, #F37335 24%, #FDC830 92%);
+}
+
+.card-green {
+    background: linear-gradient(to top right, #00B09B 0%, #96C93D 88%);
+}
+
+.card-red {
+    background: linear-gradient(to top right, #93291E 22%, #ED213A 81%);
+}
+.card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card > h6 {
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.card-bottom > p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+.table {
+    margin-top: 50px;
+    border-collapse: collapse; /* Hücreler arasında boşluk bırakır */
+    border-spacing: 0; /* Boşluk olmamasını sağlar */
+    overflow: hidden; /* Taşan border'ları keser */
+}
+
+.table th, .table td {
+    padding: 10px 20px; /* Hücre içeriğine boşluk ekler */
+}
+
+/* Kenarları yuvarlatmak için pseudo-elementler kullanılır */
+.table thead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.table thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+.table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+/* Diğer stiller */
+/* Başlık (thead) stilleri */
+.thead {
+    color: white; /* Beyaz metin */
+}
+
+.thead > tr {
+    background: #0025FF !important;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+/* Satır (tr) stilleri */
+tr:nth-child(even) {
+    background-color: #C2E9FB; /* Açık Mavi arka plan */
+}
+
+tr:nth-child(odd) {
+    background-color: #F1F1F1; /* Açık Gri arka plan */
+}
+
+/* Hücre (td, th) stilleri */
+td, th {
+    padding: 8px 20px; 
+    text-align: left;
+}
+
+/* Başlık hücresi (th) stilleri */
+th {
+    text-align: left;
+    background-color: #0025FF;
+    color: white;
+    font-weight: bold;
+}
+
+tr > th {
+    font-size: 14px !important;
+}
+
+td {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.circle {
+    width: 9px !important;
+    height: 9px !important;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+
+
