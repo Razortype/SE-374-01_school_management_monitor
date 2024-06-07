@@ -166,7 +166,8 @@
     flex-direction: column;
     color: white;
     font-weight: 500;
-    border-radius: 20px;
+    border-radius: 10px;
     border: none;
     padding: 10px 5px;
+    position: relative;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./ClassEditModal.css";
 import { FaPlus } from "react-icons/fa";
-import { PiCaretDown, PiXBold } from "react-icons/pi";
+import { PiCaretDown, PiX, PiXBold, PiXCircle } from "react-icons/pi";
 import useAuth from "../../../hooks/useAuth";
 import axios from "../../../services/api";
 import { toast } from "react-toastify";
@@ -95,6 +95,24 @@ const ClassEditModal = ({ setIsChanged, closeModal, activeClass }) => {
       });
   };
 
+  const deleteSection = (sectionId) => {
+    axios.delete(`/api/v1/class/${activeClass.class_id}/section/${sectionId}/remove`,{
+      headers: {
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
+    .then(()=> {
+      toast.success("Course deleted succesfully")
+      closeModal();
+      setIsChanged(true);
+    })
+    .catch((err) => {
+      toast.error("An error occured");
+      closeModal();
+      console.log(err);
+    })
+  }
+
   const handleClick = (row, col) => {
     setSelectedTime({
       day:
@@ -144,7 +162,8 @@ const ClassEditModal = ({ setIsChanged, closeModal, activeClass }) => {
         : startTime === "15:00:00"
         ? "seventh"
         : "";
-    col = day === "MONDAY"
+    col =
+      day === "MONDAY"
         ? "second"
         : day === "TUESDAY"
         ? "third"
@@ -155,20 +174,20 @@ const ClassEditModal = ({ setIsChanged, closeModal, activeClass }) => {
         : day === "FRIDAY"
         ? "sixth"
         : "";
-    return [row, col]
+    return [row, col];
   };
 
   const getCourseTitle = (sectionId) => {
     console.log(sectionId);
-    let crs = courses?.find(course => course.course_id === sectionId);
+    let crs = courses?.find((course) => course.course_id === sectionId);
     console.log("Course: ", crs);
-    return crs    
-  }
+    return crs;
+  };
 
   const getTeacher = (teacherId) => {
-    let tchr = teachers?.find(teacher => teacher.teacher_id === teacherId);
-    return tchr    
-  }
+    let tchr = teachers?.find((teacher) => teacher.teacher_id === teacherId);
+    return tchr;
+  };
 
   useEffect(() => {
     getAllCourses();
@@ -181,6 +200,10 @@ const ClassEditModal = ({ setIsChanged, closeModal, activeClass }) => {
   useEffect(() => {
     console.log(activeClass);
   }, []);
+
+  useEffect(() => {
+    setIsChanged(false);
+  }, [setIsChanged]);
 
   return (
     <>
@@ -211,15 +234,30 @@ const ClassEditModal = ({ setIsChanged, closeModal, activeClass }) => {
           ))
         )}
 
-        {activeClass?.course_sections?.map((sec) => 
-        (
-            <div className={`z-3 ${getRowAndCol(sec.start_time, sec.week_day)[0]}-row ${getRowAndCol(sec.start_time, sec.week_day)[1]}-col`}>
+        {activeClass?.course_sections?.map((sec) => (
+          <div
+            className={`z-3 ${
+              getRowAndCol(sec.start_time, sec.week_day)[0]
+            }-row ${getRowAndCol(sec.start_time, sec.week_day)[1]}-col`}
+          >
             <div className="class-course-card ">
-            <p>{getTeacher(sec.teacher_id)?.firstname}</p>
-            <p>{getCourseTitle(sec.course_id)?.course_code}</p>
-        </div>
-        </div>
+              <p>{getCourseTitle(sec.course_id)?.course_code}</p>
+              <p>{getTeacher(sec.teacher_id)?.firstname}</p>
+              <PiXCircle 
+              onClick={()=>deleteSection(sec.course_section_id)}
+            style={{
+              position: 'absolute',
+              top: 3,
+              right: 5,
+              width: '1.5em',
+              height: '1.5em',
+              color: 'white',
+              cursor: 'pointer'
+            }}
+            />  
+            </div>
 
+          </div>
         ))}
       </div>
 
