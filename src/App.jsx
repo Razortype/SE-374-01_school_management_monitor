@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
 import RequireAuth from "./components/AuthComponents/RequireAuth/RequireAuth";
+import CanteenDashboard from "./pages/CanteenDashboard/CanteenDashboard";
 
 function App() {
   const location = useLocation();
@@ -25,6 +26,9 @@ function App() {
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={["ADMIN"]} />}>
             <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
+          <Route element={<RequireAuth allowedRoles={["CANTEEN_EMPLOYEE"]}/>} >
+            <Route path="/canteen-dasboard" element={<CanteenDashboard/>} />
           </Route>
           <Route path="unauthorized" element={<Unauthorized />} />
         </Route>

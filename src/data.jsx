@@ -1,4 +1,5 @@
 import { PiBell, PiBook, PiBookFill, PiChalkboardTeacher, PiChalkboardTeacherBold, PiUsers, PiUsersFour } from "react-icons/pi";
+import { BsBoxSeam } from "react-icons/bs";
 
 export const NAV_ITEMS = [
   {
@@ -21,5 +22,9 @@ export const NAV_ITEMS = [
     href: "classes",
     Icon: PiUsersFour,
   },
-
+  {
+    name: 'Products',
+    href: 'products',
+    Icon: BsBoxSeam
+  }
 ];

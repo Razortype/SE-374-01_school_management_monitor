@@ -8,6 +8,8 @@ import useInput from "../../hooks/useInput";
 import axios from "../../services/api";
 import { toast } from "react-toastify";
 import Loading from "../../components/CommonComponents/Loading/Loading";
+import { jwtDecode } from "jwt-decode";
+
 const LOGIN_URL = "/api/v1/auth/authenticate";
 
 const Login = () => {
@@ -43,11 +45,13 @@ const Login = () => {
       );
       setTimeout(() => {
         const accessToken = response?.data?.access_token;
+        const decoded = accessToken ? jwtDecode(accessToken) : undefined
+        const roles = decoded?.roles || [] ;
         setAuth({ user, accessToken });
         resetUser();
         setPwd("");
         setIsLoading(false);
-        navigate(from, { replace: true });
+        navigate(roles[0].authority === "ADMIN" ? '/dashboard' : "/canteen-dasboard", { replace: true });
       }, 2000);
 
     } catch (err) {
