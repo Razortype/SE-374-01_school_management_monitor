@@ -11,7 +11,7 @@ const TeacherDashboard = ({ isChanged }) => {
 
   const getAllTeachers = () => {
     axios
-      .get(`api/v1/admin/teacher?page=${currentPage}&size=13`, {
+      .get(`api/v1/admin/teacher?page=${currentPage}&size=9`, {
         headers: {
           Authorization: `Bearer ${auth.accessToken}`,
         },
@@ -71,7 +71,7 @@ const TeacherDashboard = ({ isChanged }) => {
               <td>
                 {teacher.email}
               <br />
-                {teacher.phoneNumber}
+                {teacher.phone_number}
             </td>
             </tr>
           ))}
@@ -96,8 +96,8 @@ const TeacherDashboard = ({ isChanged }) => {
         <div
           onClick={()=>setCurrentPage(currentPage+1)}
           style={{
-            pointerEvents: teachers.length < 13 && "none",
-            color: teachers.length < 13  && "#D7D7D9",
+            pointerEvents: teachers.length < 9 && "none",
+            color: teachers.length < 9  && "#D7D7D9",
           }}
         >
           Next <PiCaretRight />

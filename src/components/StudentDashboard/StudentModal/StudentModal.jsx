@@ -34,7 +34,6 @@ const StudentModal = ({ setIsChanged, closeModal }) => {
 
   const saveStudent = (e) => {
     e.preventDefault();
-    setLoading(true);
     if (formData.studentId.length !== 9){
       toast.error("Student id should be 9 chars.")
       return
@@ -47,6 +46,8 @@ const StudentModal = ({ setIsChanged, closeModal }) => {
       toast.error("Phone number should be 11 digits.")
       return
     }
+
+    setLoading(true);
 
     axios
       .post(
@@ -97,6 +98,7 @@ const StudentModal = ({ setIsChanged, closeModal }) => {
         });
         toast.error("An error occured, please try again!");
         setIsChanged(true);
+        closeModal();
       });
   };
 

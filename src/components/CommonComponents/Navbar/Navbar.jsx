@@ -51,7 +51,7 @@ const Navbar = ({ setIsChanged }) => {
               closeModal={handleCloseModal}
               setIsChanged={setIsChanged}
             />
-          ) : activeTab === "course" ? (
+          ) : activeTab === "courses" ? (
             <CourseModal
               closeModal={handleCloseModal}
               setIsChanged={setIsChanged}

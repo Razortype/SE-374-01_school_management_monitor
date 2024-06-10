@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./ClassEditModal.css";
 import { FaPlus } from "react-icons/fa";
-import { PiCaretDown, PiX, PiXBold, PiXCircle } from "react-icons/pi";
+import { PiCaretDown, PiX, PiXBold, PiXCircle, PiXCircleBold } from "react-icons/pi";
 import useAuth from "../../../hooks/useAuth";
 import axios from "../../../services/api";
 import { toast } from "react-toastify";
@@ -242,8 +242,8 @@ const ClassEditModal = ({ setIsChanged, closeModal, activeClass }) => {
           >
             <div className="class-course-card ">
               <p>{getCourseTitle(sec.course_id)?.course_code}</p>
-              <p>{getTeacher(sec.teacher_id)?.firstname}</p>
-              <PiXCircle 
+              <p>{getTeacher(sec.teacher_id)?.firstname.split(" ")[0]}</p>
+              <PiXCircleBold
               onClick={()=>deleteSection(sec.course_section_id)}
             style={{
               position: 'absolute',

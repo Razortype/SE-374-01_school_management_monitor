@@ -13,8 +13,8 @@ export const NAV_ITEMS = [
     Icon: PiChalkboardTeacher
   },
   {
-    name: "Course",
-    href: "course",
+    name: "Courses",
+    href: "courses",
     Icon: PiBook,
   },
   {
@@ -22,9 +22,4 @@ export const NAV_ITEMS = [
     href: "classes",
     Icon: PiUsersFour,
   },
-  {
-    name: 'Products',
-    href: 'products',
-    Icon: BsBoxSeam
-  }
 ];

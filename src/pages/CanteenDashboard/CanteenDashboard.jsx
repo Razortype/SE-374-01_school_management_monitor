@@ -3,6 +3,7 @@ import useActiveTab from "../../hooks/useActiveTab";
 import Logo from "../../assets/Group.png";
 import { FaBox, FaShoppingBasket } from "react-icons/fa";
 import ProductDashboard from "../../components/ProductDashboard/ProductDashboard";
+import Basket from "../../components/Basket/Basket";
 
 const CanteenDashboard = () => {
   const { activeTab, setActiveTab } = useActiveTab();
@@ -41,7 +42,7 @@ const CanteenDashboard = () => {
         {activeTab === "products"
           ? <ProductDashboard/>
           : activeTab === "purchase"
-          ? "basket"
+          ? <Basket />
           : ""}
     </div>
   );

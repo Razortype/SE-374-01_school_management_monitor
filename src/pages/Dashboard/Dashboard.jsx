@@ -20,7 +20,7 @@ const Dashboard = () => {
         activeTab === "students" ? 
         <StudentDashboard isChanged={isChanged}/>
         : activeTab === "teachers" ? <TeacherDashboard isChanged={isChanged}/>
-        : activeTab === "course" ? <CourseDashboard isChanged={isChanged} />
+        : activeTab === "courses" ? <CourseDashboard isChanged={isChanged} />
         : activeTab === "classes" ? <ClassDashboard isChanged={isChanged} />
         : "BLANK PAGE"
       }
