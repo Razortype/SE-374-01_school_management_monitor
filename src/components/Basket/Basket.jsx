@@ -4,6 +4,7 @@ import axios from "../../services/api";
 import { PiPlus } from "react-icons/pi";
 import { st } from "./data";
 import { toast } from "react-toastify";
+import { writeBinaryFile, BaseDirectory } from '@tauri-apps/api/fs';
 
 const Basket = () => {
   const [products, setProducts] = useState([]);
@@ -13,13 +14,13 @@ const Basket = () => {
     studentId: "",
     boughtQuantity: "",
   });
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { auth } = useAuth();
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
+    fetchTransactions();
   };
 
   const handleCloseModal = () => {
@@ -38,6 +39,37 @@ const Basket = () => {
       })
       .catch((err) => {
         console.log(err);
+      });
+  };
+
+  const fetchTransactions = () => {
+    axios
+      .get(`/api/v1/transaction?page=-1&size=-1`, {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
+      })
+      .then(async (response) => {
+        const transactions = response.data.data;
+        const json = JSON.stringify(transactions, null, 2);
+        const encoder = new TextEncoder();
+        const data = encoder.encode(json);
+
+        try {
+          await writeBinaryFile({
+            path: "transactions.json",
+            contents: data,
+          }, { dir: BaseDirectory.Desktop });
+
+          toast.success("Transactions downloaded successfully");
+        } catch (err) {
+          console.error(err);
+          toast.error("Failed to save the transactions.");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Failed to fetch transactions.");
       });
   };
 
@@ -60,39 +92,38 @@ const Basket = () => {
     setLoading(true);
 
     axios
-    .post(
-      `/api/v1/transaction/purchase`,
-      {
-        product_id: formData.productId,
-        student_id: formData.studentId,
-        bought_quantity: formData.boughtQuantity,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${auth.accessToken}`,
+      .post(
+        `/api/v1/transaction/purchase`,
+        {
+          product_id: formData.productId,
+          student_id: formData.studentId,
+          bought_quantity: formData.boughtQuantity,
         },
-      }
-    )
-    .then(() => {
-      toast.success("Purchased successfully");
-      setLoading(false);
-      setFormData({
-        productId: "",
-        studentId: "",
-        boughtQuantity: "",
+        {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        }
+      )
+      .then(() => {
+        toast.success("Purchased successfully");
+        setLoading(false);
+        setFormData({
+          productId: "",
+          studentId: "",
+          boughtQuantity: "",
+        });
       })
-    })
-    .catch((err) => {
-      toast.error("An error occured!");
-      setLoading(false);
-      setFormData({
-        productId: "",
-        studentId: "",
-        boughtQuantity: "",
-      })
-      console.log(err);
-    });
-
+      .catch((err) => {
+        toast.error(err.response.data.message);
+        setLoading(false);
+        setFormData({
+          productId: "",
+          studentId: "",
+          boughtQuantity: "",
+        });
+        console.log(err);
+      });
   };
 
   const handleChange = (e) => {
@@ -126,7 +157,7 @@ const Basket = () => {
           }}
           className="nav-button"
         >
-          Get Transcations
+          Get Transactions
         </button>
       </div>
       <div
@@ -152,11 +183,15 @@ const Basket = () => {
           }}
           onSubmit={purchase}
         >
-          <h4 style={{
-            width: '100%',
-            textAlign: 'center',
-            fontSize: '25px'
-          }}>Purchase</h4>
+          <h4
+            style={{
+              width: "100%",
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Purchase
+          </h4>
           <div
             style={{
               width: "100%",
@@ -179,7 +214,7 @@ const Basket = () => {
             >
               <option value="">Select a Student</option>
               {data?.map((student) => (
-                <option value={student.id}>
+                <option key={student.id} value={student.id}>
                   {student.firstname} {student.lastname}
                 </option>
               ))}
@@ -199,7 +234,7 @@ const Basket = () => {
             >
               <option value="">Select a Product</option>
               {products?.map((product) => (
-                <option value={product.product_id}>
+                <option key={product.product_id} value={product.product_id}>
                   {product.product_name}
                 </option>
               ))}
@@ -222,11 +257,11 @@ const Basket = () => {
 
             <div className="btn-area">
               <button
-              onClick={purchase}
+                onClick={purchase}
                 style={{
                   backgroundColor: "rgba(202,239,249,1)",
                   color: "black",
-                  fontWeight: 'bold'
+                  fontWeight: "bold",
                 }}
                 type="submit"
               >
